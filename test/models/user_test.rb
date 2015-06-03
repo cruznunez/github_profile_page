@@ -11,15 +11,22 @@ class User
   def get_repos
     JSON.parse(File.open("./test/models/cruz_repos.json").read)
   end
+
+  def get_time
+    string = "2015-06-02 19:22:12 -0400"
+    year = string[0..3]
+    month = string[5..6]
+    day = string[8..9]
+    hour = string[11..12]
+    min = string[14..15]
+    sec = string[17..18]
+    Time.new(year, month, day, hour, min, sec)
+  end
 end
 
 class UserTest < ActiveSupport::TestCase
   def setup
     @cruz = User.new("cruznunez")
-  end
-
-  def test_can_be_created
-    assert User.new("cruznunez")
   end
 
   def test_repository_length
@@ -43,8 +50,14 @@ class UserTest < ActiveSupport::TestCase
   end
 
   def test_repo_name
-    assert_equal "", @cruz.repo_name(1)
+    assert_equal "Currency-Converter", @cruz.repo_name(1)
   end
 
+  def test_updated_at
+    assert_equal "Updated 26 days ago", @cruz.repo_updated_at(0)
+    assert_equal "Updated 23 days ago", @cruz.repo_updated_at(1)
+    assert_equal "Updated 16 days ago", @cruz.repo_updated_at(2)
+    assert_equal "Updated 8 days ago", @cruz.repo_updated_at(7)
+  end
 
 end

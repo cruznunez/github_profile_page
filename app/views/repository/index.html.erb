@@ -1,3 +1,141 @@
-<h1>Repository#index</h1>
-<p>Find me in app/views/repository/index.html.erb</p>
-<%= image_tag @user.get_pic%>
+<div id="start-of-content" class="accessibility-aid"></div>
+<div class="site clearfix" role="main">
+
+  <div id="site-container" class="context-loader-container" data-pjax-container="">
+
+
+
+
+    <div class="container">
+      <div class="columns profilecols">
+        <div class="column one-fourth vcard" itemscope="" itemtype="http://schema.org/Person">
+            <a href="https://avatars1.githubusercontent.com/u/8742021?v=3&amp;s=400" aria-hidden="true" class="vcard-avatar" itemprop="image"><img alt="" class="avatar" height="230" src="<%= @user.pic %>" width="230"></a>
+              <h1 class="vcard-names">
+                  <span class="vcard-fullname" itemprop="name"><%= @user.name %></span>
+                  <span class="vcard-username" itemprop="additionalName"><%= @user.username %></span>
+              </h1>
+
+
+
+        <ul class="vcard-details">
+          <% if @user.org != "" %>
+            <li class="vcard-detail" itemprop="worksFor" title="The Iron Yard"><span class="octicon octicon-organization"></span><%= @user.org %></li>
+            <li class="vcard-detail" itemprop="homeLocation" title="Durham, NC"><span class="octicon octicon-location"></span><%= @user.location %></li>
+          <% else %>
+            <li class="vcard-detail" itemprop="homeLocation" title="Durham, NC"><span class="octicon octicon-location"></span><%= @user.location %></li>
+            <li class="vcard-detail"><span class="octicon octicon-mail"></span><a class="email" href="mailto:<%= @user.email %>"><%= @user.email %></a></li>
+          <% end %>
+          <li class="vcard-detail"><span class="octicon octicon-clock"></span><span class="join-label"><%= @user.joined %></time></li>
+        </ul>
+
+
+          <div class="vcard-stats">
+            <a class="vcard-stat" href="/cruznunez/followers">
+              <strong class="vcard-stat-count"><%= @user.followers %></strong>
+              <span class="text-muted">Followers</span>
+            </a>
+            <a class="vcard-stat" href="/stars/cruznunez">
+              <strong class="vcard-stat-count">0</strong>
+              <span class="text-muted">Starred</span>
+            </a>
+            <a class="vcard-stat" href="/cruznunez/following">
+              <strong class="vcard-stat-count"><%= @user.following %></strong>
+              <span class="text-muted">Following</span>
+            </a>
+          </div>
+
+        </div>
+
+        <div class="column three-fourths">
+
+
+          <div class="tabnav">
+              <div class="right">
+                  <span class="user-following-container">
+        <span class="follow">
+          <a href="/login?return_to=%2Fcruznunez%3Ftab%3Drepositories" class="btn btn-sm btn-primary">
+            <span class="octicon octicon-person"></span>
+            Follow
+          </a>
+        </span>
+      </span>
+
+              </div>
+
+            <nav class="tabnav-tabs" data-pjax="" role="navigation">
+              <a href="/cruznunez" class="tabnav-tab ">
+                <span class="octicon octicon-diff-added"></span>
+                Contributions
+              </a>
+              <a href="/cruznunez?tab=repositories" class="tabnav-tab selected">
+                <span class="octicon octicon-repo"></span>
+                Repositories
+              </a>
+              <a href="/cruznunez?tab=activity" class="tabnav-tab ">
+                <span class="octicon octicon-rss"></span>
+                Public activity
+              </a>
+            </nav>
+          </div>
+
+          <div class="tab-content js-repo-filter">
+
+      <div class="repo-tab">
+        <div class="filter-bar">
+          <ul class="repo_filterer">
+              <li><a href="#" class="repo_filter js-repo-filter-tab" data-filter=".mirror">Mirrors</a></li>
+            <li><a href="#" class="repo_filter js-repo-filter-tab" data-filter=".fork">Forks</a></li>
+            <li><a href="#" class="repo_filter js-repo-filter-tab" data-filter=".source">Sources</a></li>
+            <li class="all_repos"><a href="#" class="repo_filter js-repo-filter-tab filter-selected" data-filter=".public, .private">All</a></li>
+          </ul>
+
+          <form accept-charset="UTF-8" action="/search" class="repo-search" method="get" role="search"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="✓"></div>
+            <input type="hidden" name="user" value="cruznunez">
+            <input type="text" id="your-repos-filter" name="q" class="filter_input js-filterable-field" placeholder="Find a repository…" tabindex="2">
+            <input type="submit" value="Search" class="btn">
+    </form>    </div>
+
+    <ul class="repo-list js-repo-list" data-filterable-for="your-repos-filter" data-filterable-type="substring">
+
+      <% array = (0..(@user.repo_len-1)).to_a.reverse%>
+      <% array.each do |num| %>
+        <li class="repo-list-item public source">
+          <div class="repo-list-stats">
+              Ruby
+            <a class="repo-list-stat-item tooltipped tooltipped-s" href="/cruznunez/github_profile_page/stargazers" aria-label="Stargazers">
+              <span class="octicon octicon-star"></span>
+              <%= @user.stargazers(num)%>
+            </a>
+            <a class="repo-list-stat-item tooltipped tooltipped-s" href="/cruznunez/github_profile_page/network" aria-label="Forks">
+              <span class="octicon octicon-git-branch"></span>
+              <%= @user.forks(num) %>
+            </a>
+          </div>
+
+          <h3 class="repo-list-name">
+            <a href="/cruznunez/voting_api">
+              <%= @user.repo_name(num) %> </a>
+          </h3>
+
+          <p class="repo-list-meta">
+            <%= @user.repo_updated_at(num) %>
+          </p>
+
+          <div class="participation-graph">
+            <svg class="bars" width="640" height="80"></svg>
+          </div>
+        </li>
+      <% end %>
+    </ul>
+
+      </div>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+  <div class="modal-backdrop"></div>
+</div>

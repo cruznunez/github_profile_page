@@ -7,7 +7,7 @@ class RepositoryControllerTest < ActionController::TestCase
   end
 
   test "should get index" do
-    get :index
+    post :index
     assert_response :success
   end
 
