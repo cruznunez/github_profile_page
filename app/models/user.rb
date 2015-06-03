@@ -1,6 +1,6 @@
 class User
 
-  attr_reader :profile_pic, :name, :username
+  attr_reader :name, :username
 
   def initialize(username)
     @username = username
@@ -89,8 +89,8 @@ class User
   end
 
   def repo_updated_at(num)
-    github_update_str = @repos[num]["pushed_at"]
-    update_str = github_update_str.gsub(/Z/, " -0400")
+    update_str = @repos[num]["pushed_at"]
+
     old_hour = (update_str[11..12].to_i) - 4
     hour = (old_hour >= 0) ? old_hour : ((24 + old_hour).to_s)
     old_day = update_str[8..9]
@@ -100,8 +100,8 @@ class User
     year = update_str[0..3]
     min = update_str[14..15]
     sec = update_str[17..18]
-
     update_time = Time.new(year, month, day, hour, min, sec)
+    # update_time = github_update_str.to_date
     time_elapsed_seconds = @time_now - update_time
     time_elapsed_seconds
     time_elapsed_days_unrounded = (time_elapsed_seconds.to_f / (24 * 60 * 60).to_f)
